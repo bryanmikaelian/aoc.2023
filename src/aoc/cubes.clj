@@ -56,4 +56,5 @@
                                 (filter valid-game?)))
 
 (defn verify []
-  (prn "day 2 part 1 answer" (reduce + (map :id valid-games))))
+  (prn "day 2 part 1 answer" (reduce + (map :id valid-games)))
+  (prn "day 2 part 2 answer" 0))
