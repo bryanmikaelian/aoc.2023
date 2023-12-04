@@ -51,10 +51,24 @@
   (let [{:keys [rounds]} game]
     (every? valid-round? rounds)))
 
-(def ^:private valid-games (->> games
-                                (map make-game)
-                                (filter valid-game?)))
+(defn- max-scores [rounds]
+  (let [max-red (:red (apply max-key :red rounds))
+        max-blue (:blue (apply max-key :blue rounds))
+        max-green (:green (apply max-key :green rounds))]
+    [max-red max-blue max-green]))
+
+(defn- power-of-cubes [cubes]
+  (reduce * cubes))
+
+(def ^:private all-games (->> games
+                              (map make-game)))
+
+(def ^:private valid-games (filter valid-game? all-games))
 
 (defn verify []
   (prn "day 2 part 1 answer" (reduce + (map :id valid-games)))
-  (prn "day 2 part 2 answer" 0))
+  (prn "day 2 part 2 answer" (->> all-games
+                                  (map :rounds)
+                                  (map max-scores)
+                                  (map power-of-cubes)
+                                  (reduce +))))
